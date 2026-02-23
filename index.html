@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinCalc Pro — Free Finance Calculators</title>
-  <meta name="description" content="Free online finance calculators: mortgage, compound interest, loan, retirement savings, and more. Get instant results.">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinanceMotivator — Free Financial Calculators</title>
+  <meta name="description" content="Free online financial calculators: mortgage, compound interest, loan, retirement, budget, tax, ROI, savings goal, currency, and more.">
 
   <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your Publisher ID -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Syne:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0f14;
-      --surface: #14171f;
-      --surface2: #1c2030;
-      --border: #252a3a;
-      --accent: #c8f230;
-      --accent2: #3df5c1;
-      --text: #e8ecf5;
-      --muted: #7a859e;
-      --danger: #f25050;
-      --font-display: 'DM Serif Display', serif;
-      --font-body: 'DM Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
+      --bg: #f5f0e8;
+      --bg2: #ede8dc;
+      --surface: #ffffff;
+      --surface2: #faf8f4;
+      --border: #ddd8cc;
+      --accent: #1a3a2a;
+      --accent2: #c8a84b;
+      --text: #1a1a18;
+      --muted: #7a7568;
+      --green: #1a6b40;
+      --red: #b03020;
+      --blue: #1a3a6b;
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow: 0 2px 16px rgba(26,26,24,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,26,24,0.12);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
@@ -40,7 +47,7 @@
 
     /* ── HEADER ── */
     header {
-      border-bottom: 1px solid var(--border);
+      background: var(--accent);
       padding: 0 2rem;
       display: flex;
       align-items: center;
@@ -48,297 +55,360 @@
       height: 64px;
       position: sticky;
       top: 0;
-      background: rgba(13,15,20,0.92);
-      backdrop-filter: blur(12px);
-      z-index: 100;
+      z-index: 200;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
     }
     .logo {
       font-family: var(--font-display);
       font-size: 1.5rem;
+      color: #fff;
       letter-spacing: -0.02em;
     }
-    .logo span { color: var(--accent); }
-    nav { display: flex; gap: 0.5rem; }
-    nav button {
+    .logo span { color: var(--accent2); }
+    .header-right { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+
+    /* ── TOP AD ── */
+    .ad-top {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+      min-height: 106px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--accent);
+      padding: 3rem 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200,168,75,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .hero h1 em { color: var(--accent2); font-style: normal; }
+    .hero p { color: rgba(255,255,255,0.6); margin-top: 0.75rem; font-size: 1rem; }
+
+    /* ── CALC GRID ── */
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0;
+      background: var(--accent);
+      padding: 2rem 2rem 0;
+      max-width: 900px;
+      margin: 1.5rem auto 0;
+    }
+    .calc-tab {
       background: none;
-      border: 1px solid transparent;
-      color: var(--muted);
-      padding: 0.35rem 0.9rem;
-      border-radius: 6px;
+      border: none;
+      color: rgba(255,255,255,0.55);
+      padding: 0.75rem 0.5rem;
       cursor: pointer;
       font-family: var(--font-body);
-      font-size: 0.875rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-align: center;
+      border-bottom: 3px solid transparent;
       transition: all 0.15s;
-    }
-    nav button:hover { color: var(--text); border-color: var(--border); }
-    nav button.active { color: var(--accent); border-color: var(--accent); background: rgba(200,242,48,0.06); }
-
-    /* ── TOP AD BANNER ── */
-    .ad-banner {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0.5rem 2rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100px;
+      gap: 0.3rem;
     }
-    .ad-placeholder {
-      width: 100%;
-      max-width: 728px;
-      height: 90px;
-      border: 1px dashed var(--border);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      /* Remove this div in production — AdSense fills it */
-    }
+    .calc-tab .tab-icon { font-size: 1.3rem; }
+    .calc-tab:hover { color: rgba(255,255,255,0.85); }
+    .calc-tab.active { color: var(--accent2); border-bottom-color: var(--accent2); }
 
-    /* ── LAYOUT ── */
+    /* ── PAGE LAYOUT ── */
     .page {
       display: grid;
       grid-template-columns: 1fr 300px;
       gap: 2rem;
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 2rem;
     }
-    @media(max-width: 900px) {
-      .page { grid-template-columns: 1fr; }
-      nav button span { display: none; }
-    }
+    @media(max-width: 860px) { .page { grid-template-columns: 1fr; } }
 
-    /* ── CALCULATOR CARD ── */
+    /* ── CALCULATOR PANEL ── */
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; }
+
     .calc-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.25s ease;
     }
-    .calc-header {
-      padding: 2rem 2rem 1.5rem;
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    .calc-head {
+      padding: 1.75rem 2rem;
       border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
     }
-    .calc-header h1 {
-      font-family: var(--font-display);
+    .calc-head-icon {
       font-size: 2rem;
-      letter-spacing: -0.03em;
+      width: 52px;
+      height: 52px;
+      background: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .calc-head h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
       line-height: 1.2;
     }
-    .calc-header p { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+    .calc-head p { color: var(--muted); font-size: 0.875rem; margin-top: 0.25rem; }
     .calc-body { padding: 2rem; }
 
-    /* ── INPUTS ── */
-    .field { margin-bottom: 1.4rem; }
-    label {
+    /* ── FORM ELEMENTS ── */
+    .field { margin-bottom: 1.25rem; }
+    .field label {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.45rem;
     }
-    .input-wrap {
-      position: relative;
-    }
-    .input-wrap .prefix {
+    .input-wrap { position: relative; }
+    .prefix {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--muted);
       font-family: var(--font-mono);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       pointer-events: none;
+      z-index: 1;
     }
-    input[type="number"], input[type="range"] {
+    input[type="number"], select {
       width: 100%;
       background: var(--surface2);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 8px;
       color: var(--text);
       font-family: var(--font-mono);
-      font-size: 1rem;
-      padding: 0.75rem 1rem 0.75rem 2.2rem;
+      font-size: 0.95rem;
+      padding: 0.7rem 1rem;
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s;
       -moz-appearance: textfield;
+      appearance: none;
     }
-    input[type="number"]:focus { border-color: var(--accent); }
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-    input.no-prefix { padding-left: 1rem; }
-    input[type="range"] {
-      padding: 0;
-      height: 36px;
-      cursor: pointer;
-      accent-color: var(--accent);
-      background: transparent;
-      border: none;
+    input[type="number"]:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,58,42,0.08);
     }
-    .range-row { display: flex; align-items: center; gap: 1rem; }
+    .has-prefix input { padding-left: 2rem; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7568' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 2rem; cursor: pointer; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    @media(max-width:600px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+      height: 6px;
+      margin: 0.5rem 0;
+    }
+    .range-row { display: flex; align-items: center; gap: 0.75rem; }
     .range-val {
       font-family: var(--font-mono);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--accent);
-      white-space: nowrap;
-      min-width: 48px;
+      font-weight: 500;
+      min-width: 52px;
       text-align: right;
     }
 
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media(max-width:600px) { .grid2 { grid-template-columns: 1fr; } }
-
-    /* ── CALCULATE BUTTON ── */
     .btn-calc {
       width: 100%;
-      padding: 1rem;
+      padding: 0.9rem 1.5rem;
       background: var(--accent);
-      color: #0d0f14;
+      color: #fff;
       font-family: var(--font-body);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.1s, opacity 0.15s;
-      letter-spacing: 0.02em;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       margin-top: 0.5rem;
     }
-    .btn-calc:hover { opacity: 0.9; }
+    .btn-calc:hover { background: #0f2318; }
     .btn-calc:active { transform: scale(0.98); }
 
     /* ── RESULTS ── */
     .results {
-      margin-top: 2rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
       display: none;
-      animation: fadeUp 0.3s ease;
+      margin-top: 1.75rem;
+      animation: fadeIn 0.3s ease;
     }
     .results.visible { display: block; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .results-box {
+      background: var(--accent);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
     }
-    .results-title {
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+    .results-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1rem;
+      font-weight: 700;
     }
-    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
-    .result-item { }
-    .result-item .r-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.2rem; }
-    .result-item .r-val {
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; }
+    .r-item .r-lbl { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-bottom: 0.2rem; }
+    .r-item .r-val {
       font-family: var(--font-mono);
-      font-size: 1.4rem;
-      color: var(--accent);
+      font-size: 1.5rem;
+      color: #fff;
       font-weight: 500;
+      line-height: 1.2;
     }
-    .result-item .r-val.big { font-size: 2rem; }
-    .result-item .r-val.teal { color: var(--accent2); }
-    .result-item .r-val.red { color: var(--danger); }
+    .r-item .r-val.gold { color: var(--accent2); }
+    .r-item .r-val.sm { font-size: 1.1rem; }
 
-    /* Amortization table */
-    .table-wrap { margin-top: 1.5rem; overflow-x: auto; max-height: 260px; overflow-y: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-family: var(--font-mono); }
-    th { color: var(--muted); text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface2); }
-    td { padding: 0.35rem 0.6rem; border-bottom: 1px solid rgba(37,42,58,0.5); }
+    /* Table */
+    .tbl-wrap { overflow-x: auto; max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; font-family: var(--font-mono); }
+    thead { position: sticky; top: 0; }
+    th { background: var(--surface2); color: var(--muted); text-align: left; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font-body); }
+    td { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--bg2); color: var(--text); }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(200,242,48,0.04); }
+    tr:hover td { background: var(--bg); }
 
-    /* ── IN-CONTENT AD ── */
-    .ad-in-content {
-      margin: 2rem 0;
+    /* in-content ad */
+    .ad-inline {
+      margin: 1.5rem 0;
       display: flex;
       justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface2);
+      min-height: 100px;
+      align-items: center;
     }
 
     /* ── SIDEBAR ── */
     .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
     .sidebar-ad {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      min-height: 250px;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      text-align: center;
+      min-height: 260px;
+      box-shadow: var(--shadow);
     }
-    .sidebar-ad.tall { min-height: 600px; }
 
-    .quick-links {
+    .all-calcs {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.25rem;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    .quick-links h3 {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-    .quick-links button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      color: var(--muted);
-      padding: 0.45rem 0;
-      cursor: pointer;
-      font-family: var(--font-body);
-      font-size: 0.875rem;
+    .all-calcs-head {
+      padding: 1rem 1.25rem;
+      background: var(--surface2);
       border-bottom: 1px solid var(--border);
-      transition: color 0.15s;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .quick-links button:last-child { border-bottom: none; }
-    .quick-links button:hover { color: var(--accent); }
-    .quick-links button.active { color: var(--accent); font-weight: 500; }
+    .all-calcs a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.25rem;
+      border-bottom: 1px solid var(--bg2);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.12s, color 0.12s;
+      cursor: pointer;
+    }
+    .all-calcs a:last-child { border-bottom: none; }
+    .all-calcs a:hover { background: var(--bg); color: var(--accent); }
+    .all-calcs a.active { background: rgba(26,58,42,0.06); color: var(--accent); font-weight: 500; }
+    .all-calcs a .ic { font-size: 1rem; }
+
+    /* tip box */
+    .tip-box {
+      background: linear-gradient(135deg, var(--accent), #0f2318);
+      border-radius: 12px;
+      padding: 1.25rem;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .tip-box h4 { font-family: var(--font-display); font-size: 1rem; color: var(--accent2); margin-bottom: 0.5rem; }
+    .tip-box p { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
 
     /* ── FOOTER ── */
     footer {
       text-align: center;
       padding: 2rem;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       border-top: 1px solid var(--border);
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
-
-    /* ── HIDDEN SECTIONS ── */
-    .calc-section { display: none; }
-    .calc-section.active { display: block; }
+    footer a { color: var(--muted); }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Fin<span>Calc</span> Pro</div>
-  <nav>
-    <button class="active" onclick="switchCalc('mortgage', this)"><span>🏠 </span>Mortgage</button>
-    <button onclick="switchCalc('compound', this)"><span>📈 </span>Compound</button>
-    <button onclick="switchCalc('loan', this)"><span>💳 </span>Loan</button>
-    <button onclick="switchCalc('retirement', this)"><span>🎯 </span>Retire</button>
-  </nav>
+  <div class="logo">Finance<span>Motivator</span></div>
+  <div class="header-right">10 Free Financial Calculators</div>
 </header>
 
-<!-- TOP LEADERBOARD AD -->
-<div class="ad-banner">
-  <!-- AdSense Leaderboard 728x90 — replace data-ad-* with your values -->
+<!-- TOP AD 728x90 -->
+<div class="ad-top">
   <ins class="adsbygoogle"
      style="display:inline-block;width:728px;height:90px"
      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -346,508 +416,734 @@
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
+<div class="hero">
+  <h1>Free <em>Financial</em> Calculators</h1>
+  <p>Make smarter money decisions — instantly, for free.</p>
+</div>
+
+<!-- CALCULATOR TABS -->
+<div style="background:var(--accent); overflow-x:auto;">
+<div class="calc-grid">
+  <button class="calc-tab active" onclick="show('mortgage',this)"><span class="tab-icon">🏠</span>Mortgage</button>
+  <button class="calc-tab" onclick="show('compound',this)"><span class="tab-icon">📈</span>Compound</button>
+  <button class="calc-tab" onclick="show('loan',this)"><span class="tab-icon">💳</span>Loan</button>
+  <button class="calc-tab" onclick="show('retirement',this)"><span class="tab-icon">🎯</span>Retirement</button>
+  <button class="calc-tab" onclick="show('budget',this)"><span class="tab-icon">📊</span>Budget</button>
+  <button class="calc-tab" onclick="show('tax',this)"><span class="tab-icon">🧾</span>Tax</button>
+  <button class="calc-tab" onclick="show('roi',this)"><span class="tab-icon">💰</span>ROI</button>
+  <button class="calc-tab" onclick="show('savings',this)"><span class="tab-icon">🏦</span>Savings Goal</button>
+  <button class="calc-tab" onclick="show('inflation',this)"><span class="tab-icon">📉</span>Inflation</button>
+  <button class="calc-tab" onclick="show('tip',this)"><span class="tab-icon">🍽️</span>Tip</button>
+</div>
+</div>
+
 <div class="page">
-  <main>
-    <!-- ════════════════════════════════════════
-         MORTGAGE CALCULATOR
-    ════════════════════════════════════════ -->
-    <div id="calc-mortgage" class="calc-section active">
-      <div class="calc-card">
-        <div class="calc-header">
-          <h1>Mortgage Calculator</h1>
-          <p>Estimate your monthly payment and total interest over the life of your loan.</p>
-        </div>
-        <div class="calc-body">
-          <div class="grid2">
-            <div class="field">
-              <label>Home Price</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="m-price" value="400000" min="0" step="1000">
-              </div>
-            </div>
-            <div class="field">
-              <label>Down Payment</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="m-down" value="80000" min="0" step="1000">
-              </div>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="field">
-              <label>Loan Term (years)</label>
-              <input type="number" id="m-term" value="30" min="1" max="50" class="no-prefix">
-            </div>
-            <div class="field">
-              <label>Annual Interest Rate</label>
-              <div class="input-wrap"><span class="prefix">%</span>
-                <input type="number" id="m-rate" value="6.8" min="0.1" max="30" step="0.05" class="no-prefix" style="padding-left:2rem">
-              </div>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="field">
-              <label>Property Tax / year</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="m-tax" value="4800" min="0" step="100">
-              </div>
-            </div>
-            <div class="field">
-              <label>Home Insurance / year</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="m-ins" value="1200" min="0" step="100">
-              </div>
-            </div>
-          </div>
-          <button class="btn-calc" onclick="calcMortgage()">Calculate Mortgage →</button>
+<main>
 
-          <div id="m-results" class="results">
-            <div class="results-title">Monthly Breakdown</div>
-            <div class="result-grid">
-              <div class="result-item">
-                <div class="r-label">Monthly Payment (P&I)</div>
-                <div class="r-val big" id="m-monthly">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Monthly (PITI)</div>
-                <div class="r-val teal" id="m-piti">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Interest Paid</div>
-                <div class="r-val red" id="m-interest">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Cost of Loan</div>
-                <div class="r-val" id="m-total">—</div>
-              </div>
-            </div>
-            <!-- In-content ad after results -->
-            <div class="ad-in-content">
-              <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="2222222222"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-            <div class="results-title">Amortization Schedule (first 5 years)</div>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
-                <tbody id="m-table"></tbody>
-              </table>
-            </div>
-          </div>
+<!-- ═══════════════════════════════════════════════════
+     1. MORTGAGE
+═══════════════════════════════════════════════════ -->
+<div id="p-mortgage" class="calc-panel active">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">🏠</div>
+    <div>
+      <h2>Mortgage Calculator</h2>
+      <p>Estimate monthly payments, total interest, and see a full amortization schedule.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Home Price</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="m-price" value="450000" min="0" step="1000"></div></div>
+      <div class="field"><label>Down Payment</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="m-down" value="90000" min="0" step="1000"></div></div>
+    </div>
+    <div class="grid3">
+      <div class="field"><label>Loan Term (yrs)</label><input type="number" id="m-term" value="30" min="1" max="50"></div>
+      <div class="field"><label>Interest Rate %</label><input type="number" id="m-rate" value="6.8" min="0.1" max="30" step="0.05"></div>
+      <div class="field"><label>Property Tax/yr</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="m-tax" value="4800" min="0"></div></div>
+    </div>
+    <div class="field"><label>Home Insurance / year</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="m-ins" value="1200" min="0"></div></div>
+    <button class="btn-calc" onclick="calcMortgage()">Calculate Mortgage →</button>
+
+    <div id="m-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Monthly Breakdown</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Monthly P&I</div><div class="r-val gold" id="m-monthly">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Monthly (PITI)</div><div class="r-val" id="m-piti">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Interest</div><div class="r-val sm" id="m-int">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Cost</div><div class="r-val sm" id="m-tot">—</div></div>
         </div>
       </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Amortization — First 60 Months</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+        <tbody id="m-tbl"></tbody>
+      </table></div>
     </div>
+  </div>
+</div>
+</div>
 
-    <!-- ════════════════════════════════════════
-         COMPOUND INTEREST CALCULATOR
-    ════════════════════════════════════════ -->
-    <div id="calc-compound" class="calc-section">
-      <div class="calc-card">
-        <div class="calc-header">
-          <h1>Compound Interest Calculator</h1>
-          <p>Watch your money grow with the power of compounding over time.</p>
-        </div>
-        <div class="calc-body">
-          <div class="grid2">
-            <div class="field">
-              <label>Initial Investment</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="c-principal" value="10000" min="0">
-              </div>
-            </div>
-            <div class="field">
-              <label>Monthly Contribution</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="c-monthly" value="500" min="0">
-              </div>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="field">
-              <label>Annual Return Rate (%)</label>
-              <div class="range-row">
-                <input type="range" id="c-rate-range" min="1" max="20" step="0.5" value="7" oninput="document.getElementById('c-rate-val').textContent=this.value+'%'; document.getElementById('c-rate').value=this.value">
-                <span class="range-val" id="c-rate-val">7%</span>
-              </div>
-              <input type="number" id="c-rate" value="7" min="0.1" max="100" step="0.5" class="no-prefix" style="margin-top:0.5rem">
-            </div>
-            <div class="field">
-              <label>Time Period (years)</label>
-              <div class="range-row">
-                <input type="range" id="c-years-range" min="1" max="50" value="20" oninput="document.getElementById('c-years-val').textContent=this.value+'yr'; document.getElementById('c-years').value=this.value">
-                <span class="range-val" id="c-years-val">20yr</span>
-              </div>
-              <input type="number" id="c-years" value="20" min="1" max="100" class="no-prefix" style="margin-top:0.5rem">
-            </div>
-          </div>
-          <button class="btn-calc" onclick="calcCompound()">Calculate Growth →</button>
-
-          <div id="c-results" class="results">
-            <div class="results-title">Your Wealth Projection</div>
-            <div class="result-grid">
-              <div class="result-item">
-                <div class="r-label">Future Value</div>
-                <div class="r-val big" id="c-future">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Contributed</div>
-                <div class="r-val" id="c-contributed">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Interest Earned</div>
-                <div class="r-val teal" id="c-earned">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Return Multiple</div>
-                <div class="r-val" id="c-multiple">—</div>
-              </div>
-            </div>
-            <div class="ad-in-content">
-              <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="3333333333"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-            <div class="results-title">Year-by-Year Growth</div>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Year</th><th>Balance</th><th>Contributions</th><th>Interest</th></tr></thead>
-                <tbody id="c-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+<!-- ═══════════════════════════════════════════════════
+     2. COMPOUND INTEREST
+═══════════════════════════════════════════════════ -->
+<div id="p-compound" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">📈</div>
+    <div>
+      <h2>Compound Interest</h2>
+      <p>See how your investments grow exponentially over time.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Initial Investment</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="ci-p" value="10000" min="0"></div></div>
+      <div class="field"><label>Monthly Contribution</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="ci-m" value="500" min="0"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Annual Return Rate — <span id="ci-rv">7%</span></label>
+        <input type="range" min="1" max="20" step="0.5" value="7" oninput="sv('ci-rv',this.value+'%');sv2('ci-r',this.value)">
+        <input type="number" id="ci-r" value="7" min="0.1" max="100" step="0.5">
+      </div>
+      <div class="field">
+        <label>Time Period — <span id="ci-yv">20 years</span></label>
+        <input type="range" min="1" max="50" value="20" oninput="sv('ci-yv',this.value+' years');sv2('ci-y',this.value)">
+        <input type="number" id="ci-y" value="20" min="1" max="100">
       </div>
     </div>
-
-    <!-- ════════════════════════════════════════
-         LOAN CALCULATOR
-    ════════════════════════════════════════ -->
-    <div id="calc-loan" class="calc-section">
-      <div class="calc-card">
-        <div class="calc-header">
-          <h1>Loan Calculator</h1>
-          <p>Calculate payments for auto loans, personal loans, student debt, and more.</p>
-        </div>
-        <div class="calc-body">
-          <div class="grid2">
-            <div class="field">
-              <label>Loan Amount</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="l-amount" value="25000" min="0">
-              </div>
-            </div>
-            <div class="field">
-              <label>Annual Interest Rate (%)</label>
-              <div class="input-wrap"><span class="prefix">%</span>
-                <input type="number" id="l-rate" value="8.5" min="0" step="0.1" class="no-prefix" style="padding-left:2rem">
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label>Loan Term (months)</label>
-            <div class="range-row">
-              <input type="range" id="l-term-range" min="6" max="84" step="6" value="60" oninput="document.getElementById('l-term-val').textContent=this.value+'mo'; document.getElementById('l-term').value=this.value">
-              <span class="range-val" id="l-term-val">60mo</span>
-            </div>
-            <input type="number" id="l-term" value="60" min="1" max="360" class="no-prefix" style="margin-top:0.5rem">
-          </div>
-          <button class="btn-calc" onclick="calcLoan()">Calculate Loan →</button>
-
-          <div id="l-results" class="results">
-            <div class="results-title">Loan Summary</div>
-            <div class="result-grid">
-              <div class="result-item">
-                <div class="r-label">Monthly Payment</div>
-                <div class="r-val big" id="l-monthly">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Interest</div>
-                <div class="r-val red" id="l-interest">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Total Repayment</div>
-                <div class="r-val" id="l-total">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Payoff Date</div>
-                <div class="r-val teal" id="l-date">—</div>
-              </div>
-            </div>
-            <div class="ad-in-content">
-              <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="4444444444"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-          </div>
+    <div class="field"><label>Compound Frequency</label>
+      <select id="ci-freq">
+        <option value="12">Monthly</option>
+        <option value="4">Quarterly</option>
+        <option value="2">Semi-Annually</option>
+        <option value="1">Annually</option>
+      </select>
+    </div>
+    <button class="btn-calc" onclick="calcCompound()">Calculate Growth →</button>
+    <div id="ci-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Wealth Projection</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Future Value</div><div class="r-val gold" id="ci-fv">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Contributed</div><div class="r-val" id="ci-tc">—</div></div>
+          <div class="r-item"><div class="r-lbl">Interest Earned</div><div class="r-val sm" id="ci-ie">—</div></div>
+          <div class="r-item"><div class="r-lbl">Return Multiple</div><div class="r-val sm" id="ci-mx">—</div></div>
         </div>
       </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Year-by-Year Growth</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Year</th><th>Balance</th><th>Contributions</th><th>Interest Earned</th></tr></thead>
+        <tbody id="ci-tbl"></tbody>
+      </table></div>
     </div>
+  </div>
+</div>
+</div>
 
-    <!-- ════════════════════════════════════════
-         RETIREMENT CALCULATOR
-    ════════════════════════════════════════ -->
-    <div id="calc-retirement" class="calc-section">
-      <div class="calc-card">
-        <div class="calc-header">
-          <h1>Retirement Savings Calculator</h1>
-          <p>Plan your path to financial freedom and a comfortable retirement.</p>
-        </div>
-        <div class="calc-body">
-          <div class="grid2">
-            <div class="field">
-              <label>Current Age</label>
-              <input type="number" id="r-age" value="30" min="18" max="70" class="no-prefix">
-            </div>
-            <div class="field">
-              <label>Retirement Age</label>
-              <input type="number" id="r-retire" value="65" min="40" max="80" class="no-prefix">
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="field">
-              <label>Current Savings</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="r-saved" value="50000" min="0">
-              </div>
-            </div>
-            <div class="field">
-              <label>Monthly Contribution</label>
-              <div class="input-wrap"><span class="prefix">$</span>
-                <input type="number" id="r-contrib" value="1000" min="0">
-              </div>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="field">
-              <label>Expected Annual Return (%)</label>
-              <div class="input-wrap"><span class="prefix">%</span>
-                <input type="number" id="r-return" value="7" step="0.5" class="no-prefix" style="padding-left:2rem">
-              </div>
-            </div>
-            <div class="field">
-              <label>Inflation Rate (%)</label>
-              <div class="input-wrap"><span class="prefix">%</span>
-                <input type="number" id="r-inflation" value="3" step="0.1" class="no-prefix" style="padding-left:2rem">
-              </div>
-            </div>
-          </div>
-          <button class="btn-calc" onclick="calcRetirement()">Calculate Retirement →</button>
-
-          <div id="r-results" class="results">
-            <div class="results-title">Retirement Projection</div>
-            <div class="result-grid">
-              <div class="result-item">
-                <div class="r-label">Nest Egg at Retirement</div>
-                <div class="r-val big" id="r-nest">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Inflation-Adjusted Value</div>
-                <div class="r-val teal" id="r-real">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Monthly Income (4% Rule)</div>
-                <div class="r-val" id="r-income">—</div>
-              </div>
-              <div class="result-item">
-                <div class="r-label">Years Until Retirement</div>
-                <div class="r-val" id="r-years">—</div>
-              </div>
-            </div>
-            <div class="ad-in-content">
-              <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="5555555555"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-          </div>
+<!-- ═══════════════════════════════════════════════════
+     3. LOAN
+═══════════════════════════════════════════════════ -->
+<div id="p-loan" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">💳</div>
+    <div>
+      <h2>Loan Calculator</h2>
+      <p>Auto loans, personal loans, student debt — calculate any loan payment.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Loan Amount</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="ln-amt" value="25000" min="0"></div></div>
+      <div class="field"><label>Annual Interest Rate %</label><input type="number" id="ln-rate" value="8.5" min="0" step="0.1"></div>
+    </div>
+    <div class="field">
+      <label>Loan Term — <span id="ln-tv">60 months</span></label>
+      <input type="range" min="6" max="84" step="6" value="60" oninput="sv('ln-tv',this.value+' months');sv2('ln-term',this.value)">
+      <input type="number" id="ln-term" value="60" min="1" max="360">
+    </div>
+    <button class="btn-calc" onclick="calcLoan()">Calculate Loan →</button>
+    <div id="ln-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Loan Summary</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Monthly Payment</div><div class="r-val gold" id="ln-mp">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Interest</div><div class="r-val" id="ln-ti">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Repayment</div><div class="r-val sm" id="ln-tr">—</div></div>
+          <div class="r-item"><div class="r-lbl">Payoff Date</div><div class="r-val sm" id="ln-pd">—</div></div>
         </div>
       </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
     </div>
-  </main>
+  </div>
+</div>
+</div>
 
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar">
-    <!-- Sidebar Rectangle Ad 300x250 -->
-    <div class="sidebar-ad">
-      <ins class="adsbygoogle"
-         style="display:block;width:300px;height:250px"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="6666666666"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<!-- ═══════════════════════════════════════════════════
+     4. RETIREMENT
+═══════════════════════════════════════════════════ -->
+<div id="p-retirement" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">🎯</div>
+    <div>
+      <h2>Retirement Planner</h2>
+      <p>Project your retirement nest egg and estimate sustainable monthly income.</p>
     </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Current Age</label><input type="number" id="rt-age" value="30" min="18" max="70"></div>
+      <div class="field"><label>Retirement Age</label><input type="number" id="rt-ret" value="65" min="40" max="80"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Current Savings</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="rt-sv" value="50000" min="0"></div></div>
+      <div class="field"><label>Monthly Contribution</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="rt-mc" value="1000" min="0"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Expected Annual Return %</label><input type="number" id="rt-rr" value="7" step="0.5" min="0"></div>
+      <div class="field"><label>Inflation Rate %</label><input type="number" id="rt-inf" value="3" step="0.1" min="0"></div>
+    </div>
+    <button class="btn-calc" onclick="calcRetirement()">Plan My Retirement →</button>
+    <div id="rt-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Retirement Projection</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Nest Egg</div><div class="r-val gold" id="rt-ne">—</div></div>
+          <div class="r-item"><div class="r-lbl">Inflation-Adjusted</div><div class="r-val" id="rt-ra">—</div></div>
+          <div class="r-item"><div class="r-lbl">Monthly Income (4%)</div><div class="r-val sm" id="rt-mi">—</div></div>
+          <div class="r-item"><div class="r-lbl">Years to Retire</div><div class="r-val sm" id="rt-yr">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="5555555555" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
-    <div class="quick-links">
-      <h3>All Calculators</h3>
-      <button class="active" onclick="switchCalc('mortgage', null, this)">🏠 Mortgage Calculator</button>
-      <button onclick="switchCalc('compound', null, this)">📈 Compound Interest</button>
-      <button onclick="switchCalc('loan', null, this)">💳 Loan Calculator</button>
-      <button onclick="switchCalc('retirement', null, this)">🎯 Retirement Planner</button>
+<!-- ═══════════════════════════════════════════════════
+     5. BUDGET (50/30/20)
+═══════════════════════════════════════════════════ -->
+<div id="p-budget" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">📊</div>
+    <div>
+      <h2>Budget Calculator</h2>
+      <p>Apply the 50/30/20 rule to balance needs, wants, and savings.</p>
     </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Monthly Income (after tax)</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="bg-inc" value="5000" min="0"></div></div>
+      <div class="field"><label>Monthly Fixed Expenses</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="bg-exp" value="1500" min="0"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Monthly Debt Payments</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="bg-debt" value="300" min="0"></div></div>
+      <div class="field"><label>Monthly Savings (current)</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="bg-sav" value="500" min="0"></div></div>
+    </div>
+    <button class="btn-calc" onclick="calcBudget()">Analyse My Budget →</button>
+    <div id="bg-res" class="results">
+      <div class="results-box">
+        <div class="results-label">50 / 30 / 20 Breakdown</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Needs (50%)</div><div class="r-val gold" id="bg-needs">—</div></div>
+          <div class="r-item"><div class="r-lbl">Wants (30%)</div><div class="r-val" id="bg-wants">—</div></div>
+          <div class="r-item"><div class="r-lbl">Savings (20%)</div><div class="r-val sm" id="bg-saves">—</div></div>
+          <div class="r-item"><div class="r-lbl">Discretionary Left</div><div class="r-val sm" id="bg-disc">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6601010101" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
-    <!-- Sidebar Tall Ad 300x600 -->
-    <div class="sidebar-ad tall">
-      <ins class="adsbygoogle"
-         style="display:block;width:300px;height:600px"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="7777777777"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<!-- ═══════════════════════════════════════════════════
+     6. INCOME TAX ESTIMATOR
+═══════════════════════════════════════════════════ -->
+<div id="p-tax" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">🧾</div>
+    <div>
+      <h2>Income Tax Estimator</h2>
+      <p>Estimate your US federal income tax and effective tax rate for 2024.</p>
     </div>
-  </aside>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Annual Gross Income</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="tx-inc" value="75000" min="0"></div></div>
+      <div class="field"><label>Filing Status</label>
+        <select id="tx-status">
+          <option value="single">Single</option>
+          <option value="married">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Pre-tax Deductions (401k etc)</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="tx-pre" value="6000" min="0"></div></div>
+      <div class="field"><label>Additional Deductions</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="tx-add" value="0" min="0"></div></div>
+    </div>
+    <button class="btn-calc" onclick="calcTax()">Estimate My Tax →</button>
+    <div id="tx-res" class="results">
+      <div class="results-box">
+        <div class="results-label">2024 Federal Tax Estimate</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Estimated Tax</div><div class="r-val gold" id="tx-tax">—</div></div>
+          <div class="r-item"><div class="r-lbl">Effective Rate</div><div class="r-val" id="tx-eff">—</div></div>
+          <div class="r-item"><div class="r-lbl">Taxable Income</div><div class="r-val sm" id="tx-taxinc">—</div></div>
+          <div class="r-item"><div class="r-lbl">After-Tax Income</div><div class="r-val sm" id="tx-after">—</div></div>
+        </div>
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;">⚠️ This is an estimate for federal income tax only. Consult a tax professional for advice.</p>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6602020202" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     7. ROI CALCULATOR
+═══════════════════════════════════════════════════ -->
+<div id="p-roi" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">💰</div>
+    <div>
+      <h2>ROI Calculator</h2>
+      <p>Calculate return on investment for any asset, business, or project.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Initial Investment</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="roi-init" value="10000" min="0"></div></div>
+      <div class="field"><label>Final Value / Return</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="roi-fin" value="14500" min="0"></div></div>
+    </div>
+    <div class="field">
+      <label>Investment Duration — <span id="roi-yv">3 years</span></label>
+      <input type="range" min="1" max="30" value="3" oninput="sv('roi-yv',this.value+' years');sv2('roi-y',this.value)">
+      <input type="number" id="roi-y" value="3" min="0.1" step="0.5">
+    </div>
+    <button class="btn-calc" onclick="calcROI()">Calculate ROI →</button>
+    <div id="roi-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Return on Investment</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Total ROI</div><div class="r-val gold" id="roi-pct">—</div></div>
+          <div class="r-item"><div class="r-lbl">Net Profit</div><div class="r-val" id="roi-net">—</div></div>
+          <div class="r-item"><div class="r-lbl">Annual Return (CAGR)</div><div class="r-val sm" id="roi-cagr">—</div></div>
+          <div class="r-item"><div class="r-lbl">Doubled In</div><div class="r-val sm" id="roi-dbl">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6603030303" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     8. SAVINGS GOAL
+═══════════════════════════════════════════════════ -->
+<div id="p-savings" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">🏦</div>
+    <div>
+      <h2>Savings Goal Calculator</h2>
+      <p>Work out how much you need to save monthly to reach your goal.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Savings Goal</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="sg-goal" value="50000" min="0"></div></div>
+      <div class="field"><label>Current Savings</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="sg-curr" value="5000" min="0"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Time to Reach Goal (yrs)</label><input type="number" id="sg-yrs" value="5" min="0.5" step="0.5"></div>
+      <div class="field"><label>Annual Interest Rate %</label><input type="number" id="sg-rate" value="4.5" min="0" step="0.1"></div>
+    </div>
+    <button class="btn-calc" onclick="calcSavings()">Calculate Savings Plan →</button>
+    <div id="sg-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Your Savings Plan</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Monthly Savings Needed</div><div class="r-val gold" id="sg-mo">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total You'll Save</div><div class="r-val" id="sg-tot">—</div></div>
+          <div class="r-item"><div class="r-lbl">Interest Earned</div><div class="r-val sm" id="sg-int">—</div></div>
+          <div class="r-item"><div class="r-lbl">Reach Goal By</div><div class="r-val sm" id="sg-date">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6604040404" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     9. INFLATION
+═══════════════════════════════════════════════════ -->
+<div id="p-inflation" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">📉</div>
+    <div>
+      <h2>Inflation Calculator</h2>
+      <p>Find out what today's money will be worth in the future — or what past money was worth.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Amount</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="inf-amt" value="1000" min="0"></div></div>
+      <div class="field"><label>Inflation Rate % / year</label><input type="number" id="inf-rate" value="3" step="0.1" min="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>From Year</label><input type="number" id="inf-from" value="2024" min="1900" max="2100"></div>
+      <div class="field"><label>To Year</label><input type="number" id="inf-to" value="2044" min="1900" max="2100"></div>
+    </div>
+    <button class="btn-calc" onclick="calcInflation()">Calculate Inflation →</button>
+    <div id="inf-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Purchasing Power</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Future Value</div><div class="r-val gold" id="inf-fv">—</div></div>
+          <div class="r-item"><div class="r-lbl">Buying Power Lost</div><div class="r-val" id="inf-lost">—</div></div>
+          <div class="r-item"><div class="r-lbl">Cumulative Inflation</div><div class="r-val sm" id="inf-cum">—</div></div>
+          <div class="r-item"><div class="r-lbl">Years</div><div class="r-val sm" id="inf-yrs">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6605050505" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     10. TIP CALCULATOR
+═══════════════════════════════════════════════════ -->
+<div id="p-tip" class="calc-panel">
+<div class="calc-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">🍽️</div>
+    <div>
+      <h2>Tip Calculator</h2>
+      <p>Split the bill and calculate tip fairly for any group size.</p>
+    </div>
+  </div>
+  <div class="calc-body">
+    <div class="grid2">
+      <div class="field"><label>Bill Total</label><div class="input-wrap has-prefix"><span class="prefix">$</span><input type="number" id="tp-bill" value="85" min="0" step="0.01"></div></div>
+      <div class="field"><label>Number of People</label><input type="number" id="tp-ppl" value="4" min="1" max="100"></div>
+    </div>
+    <div class="field">
+      <label>Tip Percentage — <span id="tp-tv">18%</span></label>
+      <input type="range" min="0" max="30" value="18" oninput="sv('tp-tv',this.value+'%');sv2('tp-pct',this.value);calcTip()">
+      <input type="number" id="tp-pct" value="18" min="0" max="100" oninput="calcTip()">
+    </div>
+    <button class="btn-calc" onclick="calcTip()">Split the Bill →</button>
+    <div id="tp-res" class="results">
+      <div class="results-box">
+        <div class="results-label">Bill Split</div>
+        <div class="result-grid">
+          <div class="r-item"><div class="r-lbl">Tip Amount</div><div class="r-val gold" id="tp-tip">—</div></div>
+          <div class="r-item"><div class="r-lbl">Total Bill</div><div class="r-val" id="tp-tot">—</div></div>
+          <div class="r-item"><div class="r-lbl">Per Person (tip)</div><div class="r-val sm" id="tp-pp-tip">—</div></div>
+          <div class="r-item"><div class="r-lbl">Per Person (total)</div><div class="r-val sm" id="tp-pp-tot">—</div></div>
+        </div>
+      </div>
+      <div class="ad-inline">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="6606060606" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</main>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <!-- 300x250 Ad -->
+  <div class="sidebar-ad">
+    <ins class="adsbygoogle" style="display:block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="7777777771"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="all-calcs">
+    <div class="all-calcs-head">All Calculators</div>
+    <a class="active" onclick="show('mortgage',null,this)"><span class="ic">🏠</span> Mortgage</a>
+    <a onclick="show('compound',null,this)"><span class="ic">📈</span> Compound Interest</a>
+    <a onclick="show('loan',null,this)"><span class="ic">💳</span> Loan Calculator</a>
+    <a onclick="show('retirement',null,this)"><span class="ic">🎯</span> Retirement Planner</a>
+    <a onclick="show('budget',null,this)"><span class="ic">📊</span> Budget (50/30/20)</a>
+    <a onclick="show('tax',null,this)"><span class="ic">🧾</span> Income Tax Estimator</a>
+    <a onclick="show('roi',null,this)"><span class="ic">💰</span> ROI Calculator</a>
+    <a onclick="show('savings',null,this)"><span class="ic">🏦</span> Savings Goal</a>
+    <a onclick="show('inflation',null,this)"><span class="ic">📉</span> Inflation Calculator</a>
+    <a onclick="show('tip',null,this)"><span class="ic">🍽️</span> Tip Calculator</a>
+  </div>
+
+  <div class="tip-box">
+    <h4>💡 Finance Tip</h4>
+    <p id="daily-tip">Loading tip...</p>
+  </div>
+
+  <!-- 300x600 Ad -->
+  <div class="sidebar-ad" style="min-height:620px;">
+    <ins class="adsbygoogle" style="display:block;width:300px;height:600px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="7777777772"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</aside>
 </div>
 
 <footer>
-  <p>FinCalc Pro — Free Financial Calculators. Results are for illustrative purposes only. Consult a financial advisor for personalized advice.</p>
-  <p style="margin-top:0.5rem">© 2025 FinCalc Pro</p>
+  <p>FinanceMotivator — Free Financial Calculators. Results are estimates for informational purposes only.</p>
+  <p style="margin-top:0.4rem">Not financial, tax, or legal advice. Always consult a qualified professional. &copy; 2025 FinanceMotivator</p>
 </footer>
 
 <script>
-  // ── UTILS ──
-  const fmt = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  const fmtD = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const v = (id) => parseFloat(document.getElementById(id).value) || 0;
-  const set = (id, val) => document.getElementById(id).textContent = val;
+// ── UTILS ──
+const $ = id => document.getElementById(id);
+const v = id => parseFloat($(id).value) || 0;
+const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+const fmtD = n => '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const set = (id, val) => $(id).textContent = val;
+const sv = (id, val) => set(id, val);
+const sv2 = (id, val) => { if($(id)) $(id).value = val; };
+const show_res = id => $(id).classList.add('visible');
 
-  function switchCalc(name, navBtn, sideBtn) {
-    document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('calc-' + name).classList.add('active');
+// ── NAV ──
+const allCalcIds = ['mortgage','compound','loan','retirement','budget','tax','roi','savings','inflation','tip'];
 
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.quick-links button').forEach(b => b.classList.remove('active'));
+function show(name, tabBtn, sideBtn) {
+  allCalcIds.forEach(id => {
+    $('p-'+id).classList.remove('active');
+  });
+  $('p-'+name).classList.add('active');
 
-    if (navBtn) navBtn.classList.add('active');
-    if (sideBtn) sideBtn.classList.add('active');
-    // sync both
-    const navBtns = document.querySelectorAll('nav button');
-    const sideLinks = document.querySelectorAll('.quick-links button');
-    const idx = ['mortgage','compound','loan','retirement'].indexOf(name);
-    if(navBtns[idx]) navBtns[idx].classList.add('active');
-    if(sideLinks[idx]) sideLinks[idx].classList.add('active');
+  document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.all-calcs a').forEach(b => b.classList.remove('active'));
+
+  const idx = allCalcIds.indexOf(name);
+  const tabs = document.querySelectorAll('.calc-tab');
+  const links = document.querySelectorAll('.all-calcs a');
+  if(tabs[idx]) tabs[idx].classList.add('active');
+  if(links[idx]) links[idx].classList.add('active');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── 1. MORTGAGE ──
+function calcMortgage() {
+  const price = v('m-price'), down = v('m-down'), years = v('m-term');
+  const r = v('m-rate')/100/12, n = years*12;
+  const principal = price - down;
+  const pmt = principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+  const piti = pmt + v('m-tax')/12 + v('m-ins')/12;
+  const totalInt = pmt*n - principal;
+  set('m-monthly', fmtD(pmt));
+  set('m-piti', fmtD(piti));
+  set('m-int', fmt(totalInt));
+  set('m-tot', fmt(pmt*n));
+  // amortization
+  const tbody = $('m-tbl'); tbody.innerHTML='';
+  let bal = principal;
+  for(let i=1; i<=Math.min(60,n); i++) {
+    const ip = bal*r, pp = pmt-ip; bal -= pp;
+    tbody.innerHTML += `<tr><td>${i}</td><td>${fmtD(pmt)}</td><td>${fmtD(pp)}</td><td>${fmtD(ip)}</td><td>${fmt(Math.max(0,bal))}</td></tr>`;
   }
+  show_res('m-res');
+}
 
-  // ── MORTGAGE ──
-  function calcMortgage() {
-    const price = v('m-price'), down = v('m-down'), years = v('m-term');
-    const annual = v('m-rate'), tax = v('m-tax'), ins = v('m-ins');
-    const principal = price - down;
-    const r = annual / 100 / 12;
-    const n = years * 12;
-    const payment = principal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
-    const piti = payment + tax/12 + ins/12;
-    const totalInterest = payment * n - principal;
-
-    set('m-monthly', fmtD(payment));
-    set('m-piti', fmtD(piti));
-    set('m-interest', fmt(totalInterest));
-    set('m-total', fmt(payment * n));
-
-    // Amortization
-    const tbody = document.getElementById('m-table');
-    tbody.innerHTML = '';
-    let bal = principal;
-    const maxMonths = Math.min(60, n);
-    for (let i = 1; i <= maxMonths; i++) {
-      const intPart = bal * r;
-      const prinPart = payment - intPart;
-      bal -= prinPart;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${i}</td><td>${fmtD(payment)}</td><td>${fmtD(prinPart)}</td><td>${fmtD(intPart)}</td><td>${fmt(Math.max(0,bal))}</td>`;
-      tbody.appendChild(tr);
-    }
-
-    document.getElementById('m-results').classList.add('visible');
+// ── 2. COMPOUND ──
+function calcCompound() {
+  const P = v('ci-p'), mo = v('ci-m'), r = v('ci-r')/100, y = v('ci-y');
+  const freq = parseInt($('ci-freq').value);
+  const rp = r/freq, periods = y*freq;
+  let bal = P;
+  for(let i=0;i<periods;i++) { bal = bal*(1+rp) + mo*(12/freq); }
+  const totalContrib = P + mo*12*y;
+  const earned = bal - totalContrib;
+  set('ci-fv', fmt(bal));
+  set('ci-tc', fmt(totalContrib));
+  set('ci-ie', fmt(earned));
+  set('ci-mx', (bal/totalContrib).toFixed(2)+'x');
+  // table
+  const tbody = $('ci-tbl'); tbody.innerHTML='';
+  let b2=P, cum=P;
+  for(let yr=1;yr<=y;yr++) {
+    for(let p=0;p<freq;p++) b2 = b2*(1+rp) + mo*(12/freq);
+    cum += mo*12;
+    tbody.innerHTML += `<tr><td>${yr}</td><td>${fmt(b2)}</td><td>${fmt(cum)}</td><td>${fmt(b2-cum)}</td></tr>`;
   }
+  show_res('ci-res');
+}
 
-  // ── COMPOUND ──
-  function calcCompound() {
-    const P = v('c-principal'), monthly = v('c-monthly');
-    const rate = v('c-rate') / 100 / 12, years = v('c-years');
-    let bal = P;
-    const tbody = document.getElementById('c-table');
-    tbody.innerHTML = '';
-    let totalContrib = P;
+// ── 3. LOAN ──
+function calcLoan() {
+  const amt = v('ln-amt'), r = v('ln-rate')/100/12, n = v('ln-term');
+  const pmt = amt*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const total = pmt*n, interest = total-amt;
+  const payoff = new Date(); payoff.setMonth(payoff.getMonth()+n);
+  set('ln-mp', fmtD(pmt));
+  set('ln-ti', fmt(interest));
+  set('ln-tr', fmt(total));
+  set('ln-pd', payoff.toLocaleDateString('en-US',{month:'short',year:'numeric'}));
+  show_res('ln-res');
+}
 
-    for (let y = 1; y <= years; y++) {
-      for (let m = 0; m < 12; m++) {
-        bal = bal * (1 + rate) + monthly;
-      }
-      totalContrib += monthly * 12 * y === 0 ? 0 : monthly * 12;
-    }
-    totalContrib = P + monthly * 12 * years;
-    const earned = bal - totalContrib;
+// ── 4. RETIREMENT ──
+function calcRetirement() {
+  const age=v('rt-age'), ret=v('rt-ret'), sv=v('rt-sv'), mc=v('rt-mc');
+  const r=v('rt-rr')/100/12, inf=v('rt-inf')/100, years=ret-age;
+  let bal=sv;
+  for(let i=0;i<years*12;i++) bal = bal*(1+r)+mc;
+  const real = bal/Math.pow(1+inf,years);
+  set('rt-ne', fmt(bal));
+  set('rt-ra', fmt(real));
+  set('rt-mi', fmtD(bal*0.04/12));
+  set('rt-yr', years+' years');
+  show_res('rt-res');
+}
 
-    set('c-future', fmt(bal));
-    set('c-contributed', fmt(totalContrib));
-    set('c-earned', fmt(earned));
-    set('c-multiple', (bal / totalContrib).toFixed(2) + 'x');
+// ── 5. BUDGET ──
+function calcBudget() {
+  const inc=v('bg-inc'), exp=v('bg-exp'), debt=v('bg-debt'), sav=v('bg-sav');
+  const needs=inc*0.5, wants=inc*0.3, saves=inc*0.2;
+  const disc = inc - exp - debt - sav;
+  set('bg-needs', fmt(needs)+'/mo');
+  set('bg-wants', fmt(wants)+'/mo');
+  set('bg-saves', fmt(saves)+'/mo');
+  set('bg-disc', (disc>=0?'+':'')+fmt(disc));
+  show_res('bg-res');
+}
 
-    // Table
-    let b2 = P;
-    let cum = P;
-    for (let y = 1; y <= years; y++) {
-      const startBal = b2;
-      for (let m = 0; m < 12; m++) b2 = b2 * (1 + rate) + monthly;
-      cum += monthly * 12;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${y}</td><td>${fmt(b2)}</td><td>${fmt(cum)}</td><td>${fmt(b2 - cum)}</td>`;
-      tbody.appendChild(tr);
-    }
-    document.getElementById('c-results').classList.add('visible');
+// ── 6. TAX ──
+function calcTax() {
+  const income = v('tx-inc'), preTax = v('tx-pre'), extra = v('tx-add');
+  const status = $('tx-status').value;
+  const stdDed = {single:14600, married:29200, hoh:21900};
+  const brackets = {
+    single:    [[0,10275,0.10],[10275,41775,0.12],[41775,89075,0.22],[89075,170050,0.24],[170050,215950,0.32],[215950,539900,0.35],[539900,Infinity,0.37]],
+    married:   [[0,20550,0.10],[20550,83550,0.12],[83550,178150,0.22],[178150,340100,0.24],[340100,431900,0.32],[431900,647850,0.35],[647850,Infinity,0.37]],
+    hoh:       [[0,14650,0.10],[14650,55900,0.12],[55900,89050,0.22],[89050,170050,0.24],[170050,215950,0.32],[215950,539900,0.35],[539900,Infinity,0.37]]
+  };
+  const agi = Math.max(0, income - preTax);
+  const deduction = Math.max(stdDed[status], extra);
+  const taxable = Math.max(0, agi - deduction);
+  let tax = 0;
+  for(const [lo,hi,rate] of brackets[status]) {
+    if(taxable <= lo) break;
+    tax += (Math.min(taxable,hi)-lo)*rate;
   }
+  set('tx-tax', fmt(tax));
+  set('tx-eff', (tax/income*100).toFixed(1)+'%');
+  set('tx-taxinc', fmt(taxable));
+  set('tx-after', fmt(income-tax-preTax));
+  show_res('tx-res');
+}
 
-  // ── LOAN ──
-  function calcLoan() {
-    const amt = v('l-amount'), rate = v('l-rate') / 100 / 12, n = v('l-term');
-    const payment = amt * rate * Math.pow(1+rate, n) / (Math.pow(1+rate, n) - 1);
-    const total = payment * n;
-    const interest = total - amt;
-    const payoff = new Date();
-    payoff.setMonth(payoff.getMonth() + n);
+// ── 7. ROI ──
+function calcROI() {
+  const init=v('roi-init'), fin=v('roi-fin'), y=v('roi-y');
+  const net=fin-init, roi=(net/init)*100;
+  const cagr=(Math.pow(fin/init,1/y)-1)*100;
+  const dbl = 72/cagr;
+  set('roi-pct', roi.toFixed(1)+'%');
+  set('roi-net', fmt(net));
+  set('roi-cagr', cagr.toFixed(2)+'%/yr');
+  set('roi-dbl', isFinite(dbl)&&dbl>0 ? dbl.toFixed(1)+' yrs' : '—');
+  show_res('roi-res');
+}
 
-    set('l-monthly', fmtD(payment));
-    set('l-interest', fmt(interest));
-    set('l-total', fmt(total));
-    set('l-date', payoff.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
-    document.getElementById('l-results').classList.add('visible');
-  }
+// ── 8. SAVINGS GOAL ──
+function calcSavings() {
+  const goal=v('sg-goal'), curr=v('sg-curr'), yrs=v('sg-yrs'), rate=v('sg-rate')/100/12;
+  const n=yrs*12;
+  const need = goal - curr*Math.pow(1+rate,n);
+  const mo = rate===0 ? need/n : need*rate/(Math.pow(1+rate,n)-1);
+  const totalSaved = mo*n + curr;
+  const interest = goal - totalSaved;
+  const goalDate = new Date(); goalDate.setFullYear(goalDate.getFullYear()+yrs);
+  set('sg-mo', fmtD(Math.max(0,mo)));
+  set('sg-tot', fmt(totalSaved));
+  set('sg-int', fmt(Math.max(0,interest)));
+  set('sg-date', goalDate.toLocaleDateString('en-US',{month:'long',year:'numeric'}));
+  show_res('sg-res');
+}
 
-  // ── RETIREMENT ──
-  function calcRetirement() {
-    const age = v('r-age'), retire = v('r-retire'), saved = v('r-saved');
-    const monthly = v('r-contrib'), ret = v('r-return') / 100 / 12;
-    const inf = v('r-inflation') / 100;
-    const years = retire - age;
-    const n = years * 12;
+// ── 9. INFLATION ──
+function calcInflation() {
+  const amt=v('inf-amt'), rate=v('inf-rate')/100;
+  const from=v('inf-from'), to=v('inf-to'), years=to-from;
+  const fv = amt*Math.pow(1+rate,years);
+  const cum = (Math.pow(1+rate,years)-1)*100;
+  set('inf-fv', fmt(fv));
+  set('inf-lost', fmt(fv-amt));
+  set('inf-cum', cum.toFixed(1)+'%');
+  set('inf-yrs', Math.abs(years)+' years');
+  show_res('inf-res');
+}
 
-    let bal = saved;
-    for (let i = 0; i < n; i++) bal = bal * (1 + ret) + monthly;
+// ── 10. TIP ──
+function calcTip() {
+  const bill=v('tp-bill'), ppl=v('tp-ppl'), pct=v('tp-pct');
+  const tip=bill*pct/100, total=bill+tip;
+  set('tp-tip', fmtD(tip));
+  set('tp-tot', fmtD(total));
+  set('tp-pp-tip', fmtD(tip/ppl));
+  set('tp-pp-tot', fmtD(total/ppl));
+  show_res('tp-res');
+}
 
-    const realBal = bal / Math.pow(1 + inf, years);
-    const income = bal * 0.04 / 12;
-
-    set('r-nest', fmt(bal));
-    set('r-real', fmt(realBal));
-    set('r-income', fmtD(income));
-    set('r-years', years + ' years');
-    document.getElementById('r-results').classList.add('visible');
-  }
-
-  // Init AdSense loads
-  (adsbygoogle = window.adsbygoogle || []).push({});
+// ── DAILY TIP ──
+const tips = [
+  "The 50/30/20 rule: 50% needs, 30% wants, 20% savings. Simple but powerful.",
+  "Compound interest is most powerful when started early. Every year you wait costs more than you think.",
+  "An emergency fund of 3–6 months of expenses is your first financial priority.",
+  "Pay off high-interest debt before investing — no investment reliably beats 20% APR credit card interest.",
+  "Max out your 401(k) employer match first — it's an instant 50–100% return.",
+  "A 1% lower mortgage rate on a $400k loan saves you ~$80,000 over 30 years.",
+  "Index funds beat 80% of actively managed funds over 20-year periods.",
+  "The Rule of 72: divide 72 by your interest rate to find how many years to double your money.",
+  "Your biggest investment is your income. Skills and career growth compound too.",
+  "Automate savings — pay yourself first before you can spend it."
+];
+$('daily-tip').textContent = tips[new Date().getDate() % tips.length];
 </script>
 </body>
 </html>
