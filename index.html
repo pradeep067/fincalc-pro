@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinCalc Pro — Free Finance Calculators</title>
+  <meta name="description" content="Free online finance calculators: mortgage, compound interest, loan, retirement savings, and more. Get instant results.">
+
+  <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your Publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #14171f;
+      --surface2: #1c2030;
+      --border: #252a3a;
+      --accent: #c8f230;
+      --accent2: #3df5c1;
+      --text: #e8ecf5;
+      --muted: #7a859e;
+      --danger: #f25050;
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--accent); }
+    nav { display: flex; gap: 0.5rem; }
+    nav button {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      transition: all 0.15s;
+    }
+    nav button:hover { color: var(--text); border-color: var(--border); }
+    nav button.active { color: var(--accent); border-color: var(--accent); background: rgba(200,242,48,0.06); }
+
+    /* ── TOP AD BANNER ── */
+    .ad-banner {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+    }
+    .ad-placeholder {
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      /* Remove this div in production — AdSense fills it */
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    @media(max-width: 900px) {
+      .page { grid-template-columns: 1fr; }
+      nav button span { display: none; }
+    }
+
+    /* ── CALCULATOR CARD ── */
+    .calc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .calc-header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .calc-header h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    .calc-header p { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+    .calc-body { padding: 2rem; }
+
+    /* ── INPUTS ── */
+    .field { margin-bottom: 1.4rem; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .input-wrap .prefix {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+    input[type="number"], input[type="range"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      padding: 0.75rem 1rem 0.75rem 2.2rem;
+      outline: none;
+      transition: border-color 0.15s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]:focus { border-color: var(--accent); }
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input.no-prefix { padding-left: 1rem; }
+    input[type="range"] {
+      padding: 0;
+      height: 36px;
+      cursor: pointer;
+      accent-color: var(--accent);
+      background: transparent;
+      border: none;
+    }
+    .range-row { display: flex; align-items: center; gap: 1rem; }
+    .range-val {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 48px;
+      text-align: right;
+    }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:600px) { .grid2 { grid-template-columns: 1fr; } }
+
+    /* ── CALCULATE BUTTON ── */
+    .btn-calc {
+      width: 100%;
+      padding: 1rem;
+      background: var(--accent);
+      color: #0d0f14;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s;
+      letter-spacing: 0.02em;
+      margin-top: 0.5rem;
+    }
+    .btn-calc:hover { opacity: 0.9; }
+    .btn-calc:active { transform: scale(0.98); }
+
+    /* ── RESULTS ── */
+    .results {
+      margin-top: 2rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: none;
+      animation: fadeUp 0.3s ease;
+    }
+    .results.visible { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .results-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+    .result-item { }
+    .result-item .r-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .result-item .r-val {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .result-item .r-val.big { font-size: 2rem; }
+    .result-item .r-val.teal { color: var(--accent2); }
+    .result-item .r-val.red { color: var(--danger); }
+
+    /* Amortization table */
+    .table-wrap { margin-top: 1.5rem; overflow-x: auto; max-height: 260px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-family: var(--font-mono); }
+    th { color: var(--muted); text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface2); }
+    td { padding: 0.35rem 0.6rem; border-bottom: 1px solid rgba(37,42,58,0.5); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(200,242,48,0.04); }
+
+    /* ── IN-CONTENT AD ── */
+    .ad-in-content {
+      margin: 2rem 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+    .sidebar-ad {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      text-align: center;
+    }
+    .sidebar-ad.tall { min-height: 600px; }
+
+    .quick-links {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .quick-links h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .quick-links button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 0.45rem 0;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+    .quick-links button:last-child { border-bottom: none; }
+    .quick-links button:hover { color: var(--accent); }
+    .quick-links button.active { color: var(--accent); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    /* ── HIDDEN SECTIONS ── */
+    .calc-section { display: none; }
+    .calc-section.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Fin<span>Calc</span> Pro</div>
+  <nav>
+    <button class="active" onclick="switchCalc('mortgage', this)"><span>🏠 </span>Mortgage</button>
+    <button onclick="switchCalc('compound', this)"><span>📈 </span>Compound</button>
+    <button onclick="switchCalc('loan', this)"><span>💳 </span>Loan</button>
+    <button onclick="switchCalc('retirement', this)"><span>🎯 </span>Retire</button>
+  </nav>
+</header>
+
+<!-- TOP LEADERBOARD AD -->
+<div class="ad-banner">
+  <!-- AdSense Leaderboard 728x90 — replace data-ad-* with your values -->
+  <ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+     data-ad-slot="1111111111"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="page">
+  <main>
+    <!-- ════════════════════════════════════════
+         MORTGAGE CALCULATOR
+    ════════════════════════════════════════ -->
+    <div id="calc-mortgage" class="calc-section active">
+      <div class="calc-card">
+        <div class="calc-header">
+          <h1>Mortgage Calculator</h1>
+          <p>Estimate your monthly payment and total interest over the life of your loan.</p>
+        </div>
+        <div class="calc-body">
+          <div class="grid2">
+            <div class="field">
+              <label>Home Price</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="m-price" value="400000" min="0" step="1000">
+              </div>
+            </div>
+            <div class="field">
+              <label>Down Payment</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="m-down" value="80000" min="0" step="1000">
+              </div>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>Loan Term (years)</label>
+              <input type="number" id="m-term" value="30" min="1" max="50" class="no-prefix">
+            </div>
+            <div class="field">
+              <label>Annual Interest Rate</label>
+              <div class="input-wrap"><span class="prefix">%</span>
+                <input type="number" id="m-rate" value="6.8" min="0.1" max="30" step="0.05" class="no-prefix" style="padding-left:2rem">
+              </div>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>Property Tax / year</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="m-tax" value="4800" min="0" step="100">
+              </div>
+            </div>
+            <div class="field">
+              <label>Home Insurance / year</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="m-ins" value="1200" min="0" step="100">
+              </div>
+            </div>
+          </div>
+          <button class="btn-calc" onclick="calcMortgage()">Calculate Mortgage →</button>
+
+          <div id="m-results" class="results">
+            <div class="results-title">Monthly Breakdown</div>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="r-label">Monthly Payment (P&I)</div>
+                <div class="r-val big" id="m-monthly">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Monthly (PITI)</div>
+                <div class="r-val teal" id="m-piti">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Interest Paid</div>
+                <div class="r-val red" id="m-interest">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Cost of Loan</div>
+                <div class="r-val" id="m-total">—</div>
+              </div>
+            </div>
+            <!-- In-content ad after results -->
+            <div class="ad-in-content">
+              <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="2222222222"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="results-title">Amortization Schedule (first 5 years)</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+                <tbody id="m-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         COMPOUND INTEREST CALCULATOR
+    ════════════════════════════════════════ -->
+    <div id="calc-compound" class="calc-section">
+      <div class="calc-card">
+        <div class="calc-header">
+          <h1>Compound Interest Calculator</h1>
+          <p>Watch your money grow with the power of compounding over time.</p>
+        </div>
+        <div class="calc-body">
+          <div class="grid2">
+            <div class="field">
+              <label>Initial Investment</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="c-principal" value="10000" min="0">
+              </div>
+            </div>
+            <div class="field">
+              <label>Monthly Contribution</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="c-monthly" value="500" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>Annual Return Rate (%)</label>
+              <div class="range-row">
+                <input type="range" id="c-rate-range" min="1" max="20" step="0.5" value="7" oninput="document.getElementById('c-rate-val').textContent=this.value+'%'; document.getElementById('c-rate').value=this.value">
+                <span class="range-val" id="c-rate-val">7%</span>
+              </div>
+              <input type="number" id="c-rate" value="7" min="0.1" max="100" step="0.5" class="no-prefix" style="margin-top:0.5rem">
+            </div>
+            <div class="field">
+              <label>Time Period (years)</label>
+              <div class="range-row">
+                <input type="range" id="c-years-range" min="1" max="50" value="20" oninput="document.getElementById('c-years-val').textContent=this.value+'yr'; document.getElementById('c-years').value=this.value">
+                <span class="range-val" id="c-years-val">20yr</span>
+              </div>
+              <input type="number" id="c-years" value="20" min="1" max="100" class="no-prefix" style="margin-top:0.5rem">
+            </div>
+          </div>
+          <button class="btn-calc" onclick="calcCompound()">Calculate Growth →</button>
+
+          <div id="c-results" class="results">
+            <div class="results-title">Your Wealth Projection</div>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="r-label">Future Value</div>
+                <div class="r-val big" id="c-future">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Contributed</div>
+                <div class="r-val" id="c-contributed">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Interest Earned</div>
+                <div class="r-val teal" id="c-earned">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Return Multiple</div>
+                <div class="r-val" id="c-multiple">—</div>
+              </div>
+            </div>
+            <div class="ad-in-content">
+              <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="3333333333"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="results-title">Year-by-Year Growth</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Year</th><th>Balance</th><th>Contributions</th><th>Interest</th></tr></thead>
+                <tbody id="c-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         LOAN CALCULATOR
+    ════════════════════════════════════════ -->
+    <div id="calc-loan" class="calc-section">
+      <div class="calc-card">
+        <div class="calc-header">
+          <h1>Loan Calculator</h1>
+          <p>Calculate payments for auto loans, personal loans, student debt, and more.</p>
+        </div>
+        <div class="calc-body">
+          <div class="grid2">
+            <div class="field">
+              <label>Loan Amount</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="l-amount" value="25000" min="0">
+              </div>
+            </div>
+            <div class="field">
+              <label>Annual Interest Rate (%)</label>
+              <div class="input-wrap"><span class="prefix">%</span>
+                <input type="number" id="l-rate" value="8.5" min="0" step="0.1" class="no-prefix" style="padding-left:2rem">
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Loan Term (months)</label>
+            <div class="range-row">
+              <input type="range" id="l-term-range" min="6" max="84" step="6" value="60" oninput="document.getElementById('l-term-val').textContent=this.value+'mo'; document.getElementById('l-term').value=this.value">
+              <span class="range-val" id="l-term-val">60mo</span>
+            </div>
+            <input type="number" id="l-term" value="60" min="1" max="360" class="no-prefix" style="margin-top:0.5rem">
+          </div>
+          <button class="btn-calc" onclick="calcLoan()">Calculate Loan →</button>
+
+          <div id="l-results" class="results">
+            <div class="results-title">Loan Summary</div>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="r-label">Monthly Payment</div>
+                <div class="r-val big" id="l-monthly">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Interest</div>
+                <div class="r-val red" id="l-interest">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Total Repayment</div>
+                <div class="r-val" id="l-total">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Payoff Date</div>
+                <div class="r-val teal" id="l-date">—</div>
+              </div>
+            </div>
+            <div class="ad-in-content">
+              <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="4444444444"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         RETIREMENT CALCULATOR
+    ════════════════════════════════════════ -->
+    <div id="calc-retirement" class="calc-section">
+      <div class="calc-card">
+        <div class="calc-header">
+          <h1>Retirement Savings Calculator</h1>
+          <p>Plan your path to financial freedom and a comfortable retirement.</p>
+        </div>
+        <div class="calc-body">
+          <div class="grid2">
+            <div class="field">
+              <label>Current Age</label>
+              <input type="number" id="r-age" value="30" min="18" max="70" class="no-prefix">
+            </div>
+            <div class="field">
+              <label>Retirement Age</label>
+              <input type="number" id="r-retire" value="65" min="40" max="80" class="no-prefix">
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>Current Savings</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="r-saved" value="50000" min="0">
+              </div>
+            </div>
+            <div class="field">
+              <label>Monthly Contribution</label>
+              <div class="input-wrap"><span class="prefix">$</span>
+                <input type="number" id="r-contrib" value="1000" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>Expected Annual Return (%)</label>
+              <div class="input-wrap"><span class="prefix">%</span>
+                <input type="number" id="r-return" value="7" step="0.5" class="no-prefix" style="padding-left:2rem">
+              </div>
+            </div>
+            <div class="field">
+              <label>Inflation Rate (%)</label>
+              <div class="input-wrap"><span class="prefix">%</span>
+                <input type="number" id="r-inflation" value="3" step="0.1" class="no-prefix" style="padding-left:2rem">
+              </div>
+            </div>
+          </div>
+          <button class="btn-calc" onclick="calcRetirement()">Calculate Retirement →</button>
+
+          <div id="r-results" class="results">
+            <div class="results-title">Retirement Projection</div>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="r-label">Nest Egg at Retirement</div>
+                <div class="r-val big" id="r-nest">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Inflation-Adjusted Value</div>
+                <div class="r-val teal" id="r-real">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Monthly Income (4% Rule)</div>
+                <div class="r-val" id="r-income">—</div>
+              </div>
+              <div class="result-item">
+                <div class="r-label">Years Until Retirement</div>
+                <div class="r-val" id="r-years">—</div>
+              </div>
+            </div>
+            <div class="ad-in-content">
+              <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="5555555555"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <!-- Sidebar Rectangle Ad 300x250 -->
+    <div class="sidebar-ad">
+      <ins class="adsbygoogle"
+         style="display:block;width:300px;height:250px"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="6666666666"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="quick-links">
+      <h3>All Calculators</h3>
+      <button class="active" onclick="switchCalc('mortgage', null, this)">🏠 Mortgage Calculator</button>
+      <button onclick="switchCalc('compound', null, this)">📈 Compound Interest</button>
+      <button onclick="switchCalc('loan', null, this)">💳 Loan Calculator</button>
+      <button onclick="switchCalc('retirement', null, this)">🎯 Retirement Planner</button>
+    </div>
+
+    <!-- Sidebar Tall Ad 300x600 -->
+    <div class="sidebar-ad tall">
+      <ins class="adsbygoogle"
+         style="display:block;width:300px;height:600px"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="7777777777"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <p>FinCalc Pro — Free Financial Calculators. Results are for illustrative purposes only. Consult a financial advisor for personalized advice.</p>
+  <p style="margin-top:0.5rem">© 2025 FinCalc Pro</p>
+</footer>
+
+<script>
+  // ── UTILS ──
+  const fmt = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const fmtD = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const v = (id) => parseFloat(document.getElementById(id).value) || 0;
+  const set = (id, val) => document.getElementById(id).textContent = val;
+
+  function switchCalc(name, navBtn, sideBtn) {
+    document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('calc-' + name).classList.add('active');
+
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.quick-links button').forEach(b => b.classList.remove('active'));
+
+    if (navBtn) navBtn.classList.add('active');
+    if (sideBtn) sideBtn.classList.add('active');
+    // sync both
+    const navBtns = document.querySelectorAll('nav button');
+    const sideLinks = document.querySelectorAll('.quick-links button');
+    const idx = ['mortgage','compound','loan','retirement'].indexOf(name);
+    if(navBtns[idx]) navBtns[idx].classList.add('active');
+    if(sideLinks[idx]) sideLinks[idx].classList.add('active');
+  }
+
+  // ── MORTGAGE ──
+  function calcMortgage() {
+    const price = v('m-price'), down = v('m-down'), years = v('m-term');
+    const annual = v('m-rate'), tax = v('m-tax'), ins = v('m-ins');
+    const principal = price - down;
+    const r = annual / 100 / 12;
+    const n = years * 12;
+    const payment = principal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+    const piti = payment + tax/12 + ins/12;
+    const totalInterest = payment * n - principal;
+
+    set('m-monthly', fmtD(payment));
+    set('m-piti', fmtD(piti));
+    set('m-interest', fmt(totalInterest));
+    set('m-total', fmt(payment * n));
+
+    // Amortization
+    const tbody = document.getElementById('m-table');
+    tbody.innerHTML = '';
+    let bal = principal;
+    const maxMonths = Math.min(60, n);
+    for (let i = 1; i <= maxMonths; i++) {
+      const intPart = bal * r;
+      const prinPart = payment - intPart;
+      bal -= prinPart;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${i}</td><td>${fmtD(payment)}</td><td>${fmtD(prinPart)}</td><td>${fmtD(intPart)}</td><td>${fmt(Math.max(0,bal))}</td>`;
+      tbody.appendChild(tr);
+    }
+
+    document.getElementById('m-results').classList.add('visible');
+  }
+
+  // ── COMPOUND ──
+  function calcCompound() {
+    const P = v('c-principal'), monthly = v('c-monthly');
+    const rate = v('c-rate') / 100 / 12, years = v('c-years');
+    let bal = P;
+    const tbody = document.getElementById('c-table');
+    tbody.innerHTML = '';
+    let totalContrib = P;
+
+    for (let y = 1; y <= years; y++) {
+      for (let m = 0; m < 12; m++) {
+        bal = bal * (1 + rate) + monthly;
+      }
+      totalContrib += monthly * 12 * y === 0 ? 0 : monthly * 12;
+    }
+    totalContrib = P + monthly * 12 * years;
+    const earned = bal - totalContrib;
+
+    set('c-future', fmt(bal));
+    set('c-contributed', fmt(totalContrib));
+    set('c-earned', fmt(earned));
+    set('c-multiple', (bal / totalContrib).toFixed(2) + 'x');
+
+    // Table
+    let b2 = P;
+    let cum = P;
+    for (let y = 1; y <= years; y++) {
+      const startBal = b2;
+      for (let m = 0; m < 12; m++) b2 = b2 * (1 + rate) + monthly;
+      cum += monthly * 12;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${y}</td><td>${fmt(b2)}</td><td>${fmt(cum)}</td><td>${fmt(b2 - cum)}</td>`;
+      tbody.appendChild(tr);
+    }
+    document.getElementById('c-results').classList.add('visible');
+  }
+
+  // ── LOAN ──
+  function calcLoan() {
+    const amt = v('l-amount'), rate = v('l-rate') / 100 / 12, n = v('l-term');
+    const payment = amt * rate * Math.pow(1+rate, n) / (Math.pow(1+rate, n) - 1);
+    const total = payment * n;
+    const interest = total - amt;
+    const payoff = new Date();
+    payoff.setMonth(payoff.getMonth() + n);
+
+    set('l-monthly', fmtD(payment));
+    set('l-interest', fmt(interest));
+    set('l-total', fmt(total));
+    set('l-date', payoff.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+    document.getElementById('l-results').classList.add('visible');
+  }
+
+  // ── RETIREMENT ──
+  function calcRetirement() {
+    const age = v('r-age'), retire = v('r-retire'), saved = v('r-saved');
+    const monthly = v('r-contrib'), ret = v('r-return') / 100 / 12;
+    const inf = v('r-inflation') / 100;
+    const years = retire - age;
+    const n = years * 12;
+
+    let bal = saved;
+    for (let i = 0; i < n; i++) bal = bal * (1 + ret) + monthly;
+
+    const realBal = bal / Math.pow(1 + inf, years);
+    const income = bal * 0.04 / 12;
+
+    set('r-nest', fmt(bal));
+    set('r-real', fmt(realBal));
+    set('r-income', fmtD(income));
+    set('r-years', years + ' years');
+    document.getElementById('r-results').classList.add('visible');
+  }
+
+  // Init AdSense loads
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+</html>
